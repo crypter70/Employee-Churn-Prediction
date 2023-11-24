@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
 import utils as util
+import joblib
 
 
 # load_data
@@ -53,6 +54,6 @@ if __name__ == "__main__":
 
     final_model = train_model(X_train, y_train)
     evaluation_model(final_model, X_test, y_test)
-    util.dump_model(final_model, 'DecisionTreeClassifier.pkl')
+    dump_model(final_model, 'COBAA.pkl')
 
     print('modeling good')
