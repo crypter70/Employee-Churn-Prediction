@@ -1,0 +1,111 @@
+# data source
+data_source: 
+  directory: data/raw/
+  file_name: Employee.csv
+  target_name: LeaveOrNot
+  features: ['Education', 'JoiningYear', 'City', 'PaymentTier','Age', 'Gender', 'EverBenched', 'ExperienceInCurrentDomain']
+  cat_features: ['Education', 'JoiningYear', 'City', 'PaymentTier', 'Gender', 'EverBenched', 'ExperienceInCurrentDomain']
+  num_features: ['Age']
+  
+  test_size: 0.3
+  random_state: 999
+
+
+# encoding path
+ohe_education_path: data/processed/ohe_education.pkl
+ohe_city_path: data/processed/ohe_city.pkl
+ohe_gender_path: data/processed/ohe_gender.pkl
+ohe_everbenched_path: data/processed/ohe_everbenched.pkl
+
+# ohe_education_path: data/processed/ohe_education_COBA1.pkl
+# ohe_city_path: data/processed/ohe_city_COBA1.pkl
+# ohe_gender_path: data/processed/ohe_gender_COBA1.pkl
+# ohe_everbenched_path: data/processed/ohe_everbenched_COBA1.pkl
+
+
+# train test data
+train_test_data: 
+  directory: data/processed/
+  raw_dataset: raw_dataset.pkl
+  X_train: X_train.pkl
+  y_train: y_train.pkl
+  X_test: X_test.pkl
+  y_test: y_test.pkl
+  X_train_feng: X_train_feng.pkl
+  y_train_feng: y_train_feng.pkl
+  X_test_feng: X_test_feng.pkl
+  y_test_feng: y_test_feng.pkl
+
+  # X_train: X_train_COBA1.pkl
+  # y_train: y_train_COBA1.pkl
+  # X_test: X_test_COBA1.pkl
+  # y_test: y_test_COBA1.pkl
+  # X_train_feng: X_train_feng_COBA1.pkl
+  # y_train_feng: y_train_feng_COBA1.pkl
+  # X_test_feng: X_test_feng_COBA1.pkl
+  # y_test_feng: y_test_feng_COBA1.pkl
+
+
+# data defense
+data_defense:
+  Education: 
+    value: ['Bachelors', 'Masters', 'PHD']
+  City:
+    value: ['Bangalore', 'Pune', 'New Delhi']
+  Gender:
+    value: ['Male', 'Female']
+  EverBenched: 
+    value: ['No', 'Yes']
+  JoiningYear:
+  - 2012
+  - 2018
+  PaymentTier:
+  - 1
+  - 3
+  Age:
+  - 22
+  - 41
+  ExperienceInCurrentDomain:
+  - 0
+  - 7
+
+  
+# model selection and hyperparameter tuning
+ls_model:
+  random_state: [1]
+  # Decision Tree
+  dt:
+    criterion: ['entropy']
+    max_depth: [3, 5, 7]
+    min_samples_split: [2, 5, 7]
+    class_weight: [NULL, 'balanced']
+  # Random Forest
+  rf:
+    n_estimators: [100, 200, 300]
+    min_samples_split: [2, 5, 7]
+    class_weight: [NULL, 'balanced']
+  # Adaboost
+  ab:
+    n_estimators: [50, 100, 200]
+    learning_rate: [0.001, 0.01, 0.1]
+  # Gradient Boosting
+  gb:
+    loss: ['log_loss', 'exponential']
+    n_estimators: [100, 200, 300]
+    learning_rate: [0.001, 0.01, 0.1]
+    max_features: ['sqrt']
+  # XGB
+  xgb:
+    max_depth: [3, 5, 7]
+    learning_rate: [0.001, 0.01, 0.1]
+    sampling_method: ['uniform']
+
+
+# final model: Decision Tree
+final_model:
+  parameter:
+    criterion: entropy
+    max_depth: 7
+    random_state: 1    
+  model_directory: models/
+  model_name: Decision_Tree_Classifier.pkl
